@@ -2,7 +2,7 @@ import numpy as np
 import unicodeit as uni
 import fractions
 
-#Hello Steven!
+#Goodbye Steven
 
 def gausselim():
     r = int(input("number of rows: "))
