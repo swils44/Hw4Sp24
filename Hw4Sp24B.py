@@ -3,7 +3,7 @@ from scipy.optimize import fsolve
 
 #I collaborated with ChatGPT to create this code. This is the code that Chat gave me. I told it that it could use
 #numpy and scipy to write the code.
-
+#Testing, Does this commit to the main?
 def func1(x):
     """
     Here, we are defining our first function: x - 3cos(x)
