@@ -1,13 +1,40 @@
 #Problem finished by Steven
 import numpy as np # import library numpy as alias np
+from scipy import linalg
 import unicodeit as uni # import library unicodeit as alias uni
-import fractions # import library fractions
 
-def gausselim():
-    """
 
-    :return:
+def matsolve():
     """
+        matsolve function solves a system of linear equations represented by matrices A and B.
+
+        The function prompts the user to input the number of rows and columns for Matrix A and initializes
+        two empty NumPy arrays: 'a_arr' for Matrix A and 'b_arr' for Matrix B. The user then inputs the
+        elements for each matrix. Matrix A elements are filled row-wise, and Matrix B elements are filled column-wise.
+
+        Parameters:
+        None
+
+        Returns:
+        None
+
+        Raises:
+        ValueError: If the input matrices do not meet the requirements for solving a system of linear equations.
+
+
+        The function prints both Matrix A and Matrix B to the console and proceeds to check if Matrix A is square
+        and if Matrix B has the correct number of rows and only one column. If these conditions are met, the function
+        constructs an augmented matrix 'aug_arr' by concatenating Matrix A and Matrix B. Then, it uses the `scipy.linalg.solve`
+        function to find the solution 'x' for the system of linear equations.
+
+        Finally, the function prints each solution 'x_i' to the console with subscript formatting using the `unicodit` library.
+        If any errors are encountered during the process, appropriate error messages are displayed.
+
+        Note:
+        - The function requires NumPy and SciPy libraries to be installed.
+        - Ensure that 'unicodit' is available for subscript formatting.
+
+        """
     # Create variables r and c ro represent rows and columns
     r = int(input("number of rows: "))
     c = int(input("number of cols: "))
@@ -37,67 +64,15 @@ def gausselim():
         print("error")
         return
 
-    n = len(b_arr) # Gets the length of Matrix B
-    m = n-1 # Subtracts 1 from the length of Matrix B
-    i = 0 # Initialize a variable I for looping
-    x = np.zeros(n) # Creates an empty array of size n
-    new_line = "\n" # Creates a newline character to use in formatting later
 
     aug_arr = np.concatenate((a_arr, b_arr), axis =1, dtype=float) # Creates the Augmented Matrix aug_arr
-    print(f"The initial augmented matrix is: {new_line}{aug_arr}") # prints the new Augmented Matrix to the CLI
-    print("Solving for the upper triangular matrix:") # Informs the user that the program is about to solve for the
-    # upper triangular Matrix by using row manipulation and back-solving
+    print(f"The augmented matrix of A and B is:")
+    print(aug_arr) # print the augmented matrix to the CLI
+    x = linalg.solve(a_arr, b_arr) # uses scipy.linalg.solve to solve the matrix's
 
-    # Gaussian Elimination with Partial Pivoting for solving a system of linear equations
-
-    # Iterate over rows
-    while i < n:
-
-        # Partial Pivoting: Find the maximum element in the current column and swap rows
-        for p in range(i + 1, n):
-            if abs(aug_arr[i, i]) < abs(aug_arr[p, i]):
-                aug_arr[[p, i]] = aug_arr[[i, p]]
-
-        # Check if the pivot element is zero, which would cause division by zero
-        if aug_arr[i, i] == 0.0:
-            print("divide by zero error!")
-            return
-
-        # Eliminate lower triangular elements below the pivot
-        for j in range(i + 1, n):
-            sca_fac = aug_arr[j][i] / aug_arr[i][i]
-            sca_fac = np.round(sca_fac, 3)
-
-            # Display the elimination operation
-            print(f"R{j + 1} - ({fractions.Fraction(sca_fac).limit_denominator(100)})R{i + 1}")
-
-            aug_arr[j] = aug_arr[j] - (sca_fac * aug_arr[i])
-
-            # Display the updated augmented matrix after elimination
-            print(np.round(aug_arr))
-
-        i = i + 1
-
-    # Back-substitution to find the solution vector x
-    x[m] = aug_arr[m][n] / aug_arr[m][m]
-
-    for k in range(n - 2, -1, -1):
-        # Back-substitution: Solve for each variable in reverse order
-        x[k] = aug_arr[k][n]
-
-        # Subtract known values to find the unknown variable
-        for j in range(k + 1, n):
-            x[k] = x[k] - aug_arr[k][j] * x[j]
-
-        # Normalize by the coefficient of the variable
-        x[k] = x[k] / aug_arr[k][k]
-
-    # Display the solution vector
-    print(f"The following x vector matrix solves the above augmented matrix:")
-
-    for answer in range(n):
+    for i in range(len(x)):
         # Uses unicodit library to add subscript to x
-        print(uni.replace(f"x_{answer} is {(x[answer])}")) # shows the user each of the x value solutions
+        print(uni.replace(f"x_{i+1} is {(x[i][0]):.4f}")) # shows the user each of the x value solutions
 
 if __name__ == "__main__":
-    gausselim()
+    matsolve()
