@@ -1,8 +1,7 @@
+#Problem finished by Steven
 import numpy as np # import library numpy as alias np
 import unicodeit as uni # import library unicodeit as alias uni
 import fractions # import library fractions
-
-#Goodbye Steven
 
 def gausselim():
     """
